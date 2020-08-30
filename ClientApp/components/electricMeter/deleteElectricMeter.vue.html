@@ -1,0 +1,14 @@
+<template>
+    <div>
+        <h1>Electric Meters</h1>
+        <!--<p>ID</p><input v-model=" electricMeter.id">-->
+        <p>Firmware Version</p><input readonly v-model=" electricMeter.firmwareVersion">
+        <p>Serial Number</p><input readonly v-model=" electricMeter.serialNumber">
+        <p>State</p><input readonly v-model=" electricMeter.state">
+        <br />
+        <br />
+        <button v-on:click="Delete()">Delete</button>
+    </div>
+</template>
+
+<script src="./deleteElectricMeter.ts"></script>

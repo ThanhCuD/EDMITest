@@ -1,0 +1,15 @@
+<template>
+    <div>
+        <h1>Water Meters</h1>
+        <p>Firmware Version</p><input v-model="param.firmwareVersion">
+        <p>Serial Number</p><input v-model="param.serialNumber">
+        <p>State</p><input v-model="param.state">
+        <p>Ip</p><input v-model="param.ip">
+        <p>Port</p><input v-model="param.port">
+        <br />
+        <br />
+        <button v-on:click="Create()">Create</button>
+    </div>
+</template>
+
+<script src="./create.ts"></script>
