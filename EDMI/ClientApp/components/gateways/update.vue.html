@@ -1,0 +1,16 @@
+<template>
+    <div>
+        <h1>Electric Meters</h1>
+        <!--<p>ID</p><input v-model=" electricMeter.id">-->
+        <p>Firmware Version</p><input v-model="item.firmwareVersion">
+        <p>Serial Number</p><input v-model="item.serialNumber">
+        <p>State</p><input v-model="item.state">
+        <p>Ip</p><input v-model="item.ip">
+        <p>Port</p><input v-model="item.port">
+        <br />
+        <br />
+        <button v-on:click="Update()">Update</button>
+    </div>
+</template>
+
+<script src="./update.ts"></script>

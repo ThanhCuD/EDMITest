@@ -1,0 +1,13 @@
+<template>
+    <div>
+        <h1>Electric Meters</h1>
+        <p>Firmware Version</p><input v-model="param.firmwareVersion">
+        <p>Serial Number</p><input v-model="param.serialNumber">
+        <p>State</p><input v-model="param.state">
+        <br />
+        <br />
+        <button v-on:click="Create()">Create</button>
+    </div>
+</template>
+
+<script src="./createElectricMeter.ts"></script>
