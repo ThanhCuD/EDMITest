@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EDMITest\EDMITest.csproj" />
+    <ProjectReference Include="..\EDMI\EDMITest.csproj" />
   </ItemGroup>
 
 </Project>

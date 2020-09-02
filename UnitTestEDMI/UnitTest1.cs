@@ -3,12 +3,8 @@ using EDMITest.Models;
 using EDMITest.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 
 namespace UnitTestEDMI
 {
@@ -62,11 +58,18 @@ namespace UnitTestEDMI
                 var okObjectResult = actionResult as OkObjectResult;
                 var electricMeter = okObjectResult.Value as ElectricMeter;
                 Assert.AreEqual(200, okObjectResult.StatusCode);
-                Assert.Equals(item, electricMeter);
+                Assert.AreEqual(item.ID, electricMeter.ID);
+                Assert.AreEqual(item.FirmwareVersion, electricMeter.FirmwareVersion);
+                Assert.AreEqual(item.SerialNumber, electricMeter.SerialNumber);
+                Assert.AreEqual(item.State, electricMeter.State);
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
+            }
+            finally
+            {
+                ElectricMeterTestHelper.DeleteAllData();
             }
         }
     }
