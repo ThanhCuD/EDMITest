@@ -1,50 +1,53 @@
-﻿using EDMITest.Models;
+﻿using EDMITest.Entity;
+using EDMITest.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EDMITest.Services
 {
-    public interface IWaterMeterService
-    {
-        void Create(CreateWaterMeterParamModel param);
-        List<SearchWaterMeterResultModel> Search(string param);
-        WaterMeter GetById(string param);
-        void Update(UpdateWaterMeterParamModel param);
-        void Remove(string param);
-    }
     public class WaterMeterService : IWaterMeterService
     {
-        private EdmiContext dbContext = new EdmiContext();
-        public void Create(CreateWaterMeterParamModel param)
+        public WaterMeterService(EdmiContext edmiContext)
         {
-            var item = new WaterMeter()
-            {
-                FirmwareVersion = param.FirmwareVersion,
-                SerialNumber = param.SerialNumber,
-                State = param.State
-            };
-            dbContext.WaterMeters.Add(item);
-            dbContext.SaveChanges();
+            dbContext = edmiContext;
         }
-        public List<SearchWaterMeterResultModel> Search(string param)
+        private EdmiContext dbContext { get; set; }
+        public async Task Create(CreateWaterMeterParamModel param)
         {
-            var data = dbContext.WaterMeters.Where(_ => string.IsNullOrEmpty(param) ? true : _.FirmwareVersion.Contains(param)
-            || _.SerialNumber.Contains(param) || _.State.Contains(param))
+            var itemExist = dbContext.Gateways.FirstOrDefault(_ => _.SerialNumber == param.SerialNumber);
+            if (itemExist == null)
+            {
+                var item = new WaterMeter()
+                {
+                    FirmwareVersion = param.FirmwareVersion,
+                    SerialNumber = param.SerialNumber,
+                    State = param.State
+                };
+                dbContext.WaterMeters.Add(item);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+        public async Task<List<SearchWaterMeterResultModel>> Search(string param)
+        {
+            var data = await dbContext.WaterMeters.Where(_ => string.IsNullOrEmpty(param) ? true : _.FirmwareVersion.Contains(param)
+             || _.SerialNumber.Contains(param) || _.State.Contains(param))
                 .Select(_ => new SearchWaterMeterResultModel()
                 {
-                    Id = _.ID.ToString(),
+                    Id = _.ID,
                     FirmwareVersion = _.FirmwareVersion,
                     State = _.State,
                     SerialNumber = _.SerialNumber
-                }).ToList();
+                }).ToListAsync();
             return data;
         }
-        public WaterMeter GetById(string param)
+        public async Task<WaterMeter> GetById(string param)
         {
-            var item = dbContext.WaterMeters.FirstOrDefault(_ => _.ID.ToString() == param);
+            var item = await dbContext.WaterMeters.FirstOrDefaultAsync(_ => _.ID.ToString() == param);
             return item;
         }
-        public void Update(UpdateWaterMeterParamModel param)
+        public async Task Update(UpdateWaterMeterParamModel param)
         {
             var item = dbContext.WaterMeters.FirstOrDefault(_ => _.ID.ToString() == param.Id);
             if (item != null)
@@ -54,16 +57,15 @@ namespace EDMITest.Services
                 item.State = param.State;
             }
             dbContext.WaterMeters.Update(item);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
-
-        public void Remove(string param)
+        public async Task Remove(string param)
         {
             var item = dbContext.WaterMeters.FirstOrDefault(_ => _.ID.ToString() == param);
             if (item != null)
             {
                 dbContext.WaterMeters.Remove(item);
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
     }

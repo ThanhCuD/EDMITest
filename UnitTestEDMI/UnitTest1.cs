@@ -1,99 +1,84 @@
 using EDMITest.Controllers;
+using EDMITest.Entity;
 using EDMITest.Models;
 using EDMITest.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace UnitTestEDMI
 {
     [TestClass]
     public class ElectricMeterControllerTest
     {
-        private ElectricMeterService service;
         private ElectricMeterController controller;
+        List<ElectricMeter> myEntities;
         public ElectricMeterControllerTest()
         {
-            service = new ElectricMeterService();
+            myEntities = new List<ElectricMeter>()
+                {
+                    new ElectricMeter { ID = 1, FirmwareVersion = "v 1", SerialNumber = "1234", State = "State" } ,
+                    new ElectricMeter { ID = 2, FirmwareVersion = "v 2", SerialNumber = "1235", State = "State" },
+                    new ElectricMeter { ID = 3, FirmwareVersion = "v 3", SerialNumber = "1236", State = "State" }
+                };
+            var dbContext = new Mock<EdmiContext>();
+            var dbSet = new Mock<DbSet<ElectricMeter>>();
+
+            var queryable = myEntities.AsQueryable();
+            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+            dbContext.Setup(o => o.ElectricMeters).Returns(dbSet.Object);
+
+            var service = new ElectricMeterService(dbContext.Object);
             controller = new ElectricMeterController(service);
         }
         [TestMethod]
-        public void Create()
+        public async Task GetAllData()
         {
             try
             {
-                ElectricMeterTestHelper.DeleteAllData();
-                var model = new CreateElectricMeterParamModel()
-                {
-                    SerialNumber = "SerialNumber",
-                    FirmwareVersion = "FirmwareVersion",
-                    State = "State"
-                };
-                var result = controller.Create(model);
-                EdmiContext dbContext = new EdmiContext();
-                var statusCode = result as OkResult;
-                var count = dbContext.ElectricMeters.Count();
-
-                Assert.AreEqual(200, statusCode.StatusCode);
-                Assert.AreEqual(1, count);
-            }
-            catch(Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
-            finally
-            {
-                ElectricMeterTestHelper.DeleteAllData();
-            }
-        }
-        [TestMethod]
-        public void GetByID()
-        {
-            try
-            {
-                ElectricMeterTestHelper.DeleteAllData();
-                var item = ElectricMeterTestHelper.CreateItemData();
-                var actionResult = controller.GetById(item.ID.ToString());
+                var actionResult = await controller.GetAll();
                 var okObjectResult = actionResult as OkObjectResult;
-                var electricMeter = okObjectResult.Value as ElectricMeter;
+                var listActual = okObjectResult.Value as List<SearchElectricMeterResultModel>;
                 Assert.AreEqual(200, okObjectResult.StatusCode);
-                Assert.AreEqual(item.ID, electricMeter.ID);
-                Assert.AreEqual(item.FirmwareVersion, electricMeter.FirmwareVersion);
-                Assert.AreEqual(item.SerialNumber, electricMeter.SerialNumber);
-                Assert.AreEqual(item.State, electricMeter.State);
+                Assert.AreEqual(myEntities.Count(), listActual.Count);
+                var sortData = listActual.OrderBy(_ => _.Id).ToList();
+                for (int i = 0; i < listActual.Count; i++)
+                {
+                    Assert.AreEqual(listActual[i].Id, myEntities[i].ID);
+                    Assert.AreEqual(listActual[i].FirmwareVersion, myEntities[i].FirmwareVersion);
+                    Assert.AreEqual(listActual[i].State, myEntities[i].State);
+                    Assert.AreEqual(listActual[i].SerialNumber, myEntities[i].SerialNumber);
+                }
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
             }
-            finally
+        }
+        [TestMethod]
+        public async Task GetByID()
+        {
+            try
             {
-                ElectricMeterTestHelper.DeleteAllData();
+                var actionResult = await controller.GetById("1");
+                var okObjectResult = actionResult as OkObjectResult;
+                var actual = okObjectResult.Value as ElectricMeter;
+                var expect = myEntities.First(_ => _.ID == 1);
+                Assert.AreEqual(200, okObjectResult.StatusCode);
+                Assert.AreEqual(actual, expect);
             }
-        }
-    }
-
-    public class ElectricMeterTestHelper
-    {
-        public static void DeleteAllData()
-        {
-            EdmiContext dbContext = new EdmiContext();
-            var data = dbContext.ElectricMeters.ToList();
-            dbContext.ElectricMeters.RemoveRange(data);
-            dbContext.SaveChanges();
-        }
-        public static ElectricMeter CreateItemData()
-        {
-            ElectricMeter item = new ElectricMeter()
+            catch (Exception ex)
             {
-                FirmwareVersion = "TestCreate"
-            };
-            EdmiContext dbContext = new EdmiContext();
-            dbContext.ElectricMeters.Add(item);
-            dbContext.SaveChanges();
-            var data = dbContext.ElectricMeters.First();
-            return data;
+                Assert.Fail(ex.Message);
+            }
         }
     }
 }

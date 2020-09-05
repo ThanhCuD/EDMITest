@@ -2,8 +2,8 @@ import './css/site.css';
 import 'bootstrap';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 
+Vue.use(VueRouter);
 const routes = [
     { path: '/', name: 'Home', component: require('./components/home/home.vue.html') },
     { path: '/electricMeter', name: 'electManager', component: require('./components/electricMeter/electricMeter.vue.html') },
@@ -20,6 +20,8 @@ const routes = [
     { path: '/updateGateways/:id', name: 'updateGateways', component: require('./components/gateways/update.vue.html') },
     { path: '/removeGateways/:id', name: 'removeGateways', component: require('./components/gateways/remove.vue.html') },
     { path: '/createGateways', name: 'createGateways', component: require('./components/gateways/create.vue.html') },
+
+    { path: '/usernew', name: 'usernew', component: require('./components/User/userNew.vue.html') },
 ];
 
 new Vue({

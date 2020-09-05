@@ -1,0 +1,147 @@
+2020-09-05 18:56:20.848 +07:00 [ERR] Starting up
+2020-09-05 18:57:05.444 +07:00 [ERR] Exception: 
+
+2020-09-05 18:57:05.530 +07:00 [ERR] System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at Microsoft.EntityFrameworkCore.Metadata.SqlServerPropertyAnnotations.SetValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.Metadata.Internal.SqlServerPropertyBuilderAnnotations.ValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn(PropertyBuilder propertyBuilder)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn[TProperty](PropertyBuilder`1 propertyBuilder)
+   at EDMITest.Entity.EdmiContext.<>c.<OnModelCreating>b__14_0(EntityTypeBuilder`1 entity) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 25
+   at Microsoft.EntityFrameworkCore.ModelBuilder.Entity[TEntity](Action`1 buildAction)
+   at EDMITest.Entity.EdmiContext.OnModelCreating(ModelBuilder modelBuilder) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 21
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelSource.CreateModel(DbContext context, IConventionSetBuilder conventionSetBuilder, IModelValidator validator)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.CreateModel()
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.get_Model()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at EDMITest.Services.ElectricMeterService.Search(String param) in D:\2020\EDMITest\EDMI\Services\ElectricMeterService.cs:line 38
+   at EDMITest.Controllers.ElectricMeterController.GetAll() in D:\2020\EDMITest\EDMI\Controllers\ElectricMeterController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 22
+
+2020-09-05 18:57:05.580 +07:00 [ERR] Connection id "0HM2HIASC37CQ", Request id "0HM2HIASC37CQ:00000003": An unhandled exception was thrown by the application.
+System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 37
+   at Microsoft.AspNetCore.Server.IISIntegration.IISMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2020-09-05 18:57:11.035 +07:00 [ERR] Exception: 
+
+2020-09-05 18:57:11.038 +07:00 [ERR] System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at Microsoft.EntityFrameworkCore.Metadata.SqlServerPropertyAnnotations.SetValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.Metadata.Internal.SqlServerPropertyBuilderAnnotations.ValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn(PropertyBuilder propertyBuilder)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn[TProperty](PropertyBuilder`1 propertyBuilder)
+   at EDMITest.Entity.EdmiContext.<>c.<OnModelCreating>b__14_0(EntityTypeBuilder`1 entity) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 25
+   at Microsoft.EntityFrameworkCore.ModelBuilder.Entity[TEntity](Action`1 buildAction)
+   at EDMITest.Entity.EdmiContext.OnModelCreating(ModelBuilder modelBuilder) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 21
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelSource.CreateModel(DbContext context, IConventionSetBuilder conventionSetBuilder, IModelValidator validator)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.CreateModel()
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.get_Model()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at EDMITest.Services.ElectricMeterService.Create(CreateElectricMeterParamModel param) in D:\2020\EDMITest\EDMI\Services\ElectricMeterService.cs:line 23
+   at EDMITest.Controllers.ElectricMeterController.Create(CreateElectricMeterParamModel param) in D:\2020\EDMITest\EDMI\Controllers\ElectricMeterController.cs:line 19
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 22
+
+2020-09-05 18:57:11.072 +07:00 [ERR] Connection id "0HM2HIASC37CP", Request id "0HM2HIASC37CP:00000004": An unhandled exception was thrown by the application.
+System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 37
+   at Microsoft.AspNetCore.Server.IISIntegration.IISMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2020-09-05 18:57:11.310 +07:00 [ERR] Exception: 
+
+2020-09-05 18:57:11.312 +07:00 [ERR] System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at Microsoft.EntityFrameworkCore.Metadata.SqlServerPropertyAnnotations.SetValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.Metadata.Internal.SqlServerPropertyBuilderAnnotations.ValueGenerationStrategy(Nullable`1 value)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn(PropertyBuilder propertyBuilder)
+   at Microsoft.EntityFrameworkCore.SqlServerPropertyBuilderExtensions.UseSqlServerIdentityColumn[TProperty](PropertyBuilder`1 propertyBuilder)
+   at EDMITest.Entity.EdmiContext.<>c.<OnModelCreating>b__14_0(EntityTypeBuilder`1 entity) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 25
+   at Microsoft.EntityFrameworkCore.ModelBuilder.Entity[TEntity](Action`1 buildAction)
+   at EDMITest.Entity.EdmiContext.OnModelCreating(ModelBuilder modelBuilder) in D:\2020\EDMITest\EDMI\Entity\DBContext.cs:line 21
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelSource.CreateModel(DbContext context, IConventionSetBuilder conventionSetBuilder, IModelValidator validator)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.CreateModel()
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.get_Model()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_InternalServiceProvider()
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at EDMITest.Services.ElectricMeterService.Search(String param) in D:\2020\EDMITest\EDMI\Services\ElectricMeterService.cs:line 38
+   at EDMITest.Controllers.ElectricMeterController.GetAll() in D:\2020\EDMITest\EDMI\Controllers\ElectricMeterController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 22
+
+2020-09-05 18:57:11.340 +07:00 [ERR] Connection id "0HM2HIASC37CQ", Request id "0HM2HIASC37CQ:00000004": An unhandled exception was thrown by the application.
+System.ArgumentException: Identity value generation cannot be used for the property 'ID' on entity type 'WaterMeter' because the property type is 'Guid'. Identity value generation can only be used with signed integer properties.
+   at EDMITest.Global.ErrorLoggingMiddleware.Invoke(HttpContext context) in D:\2020\EDMITest\EDMI\Global\ErrorLoggingMiddleware.cs:line 37
+   at Microsoft.AspNetCore.Server.IISIntegration.IISMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2020-09-05 18:59:25.338 +07:00 [ERR] Starting up
+2020-09-05 19:15:22.427 +07:00 [ERR] Starting up

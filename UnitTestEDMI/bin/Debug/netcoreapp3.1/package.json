@@ -25,6 +25,9 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
-    "axios": "^0.20.0"
+    "@rxweb/reactive-forms": "^1.0.0",
+    "axios": "^0.20.0",
+    "vee-validate": "^3.3.9",
+    "vuelidate": "^0.7.5"
   }
 }

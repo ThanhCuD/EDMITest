@@ -1,54 +1,57 @@
-﻿using EDMITest.Models;
+﻿using EDMITest.Entity;
+using EDMITest.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EDMITest.Services
 {
-    public interface IGatewaysServiceService
-    {
-        void Create(CreateGatewaysParamModel param);
-        List<SearchGatewaysResultModel> Search(string param);
-        Gateways GetById(string param);
-        void Update(UpdateGatewaysParamModel param);
-        void Remove(string param);
-    }
     public class GatewaysServiceService : IGatewaysServiceService
     {
-        private EdmiContext dbContext = new EdmiContext();
-        public void Create(CreateGatewaysParamModel param)
+        public GatewaysServiceService(EdmiContext edmiContext)
         {
-            var item = new Gateways()
-            {
-                FirmwareVersion = param.FirmwareVersion,
-                SerialNumber = param.SerialNumber,
-                State = param.State,
-                IP = param.IP,
-                Port = param.Port
-            };
-            dbContext.Gateways.Add(item);
-            dbContext.SaveChanges();
+            dbContext = edmiContext;
         }
-        public List<SearchGatewaysResultModel> Search(string param)
+        private EdmiContext dbContext { get; set; }
+        public async Task Create(CreateGatewaysParamModel param)
         {
-            var data = dbContext.Gateways.Where(_ => string.IsNullOrEmpty(param) ? true : _.FirmwareVersion.Contains(param)
-            || _.SerialNumber.Contains(param) || _.State.Contains(param))
+            var itemExist = dbContext.Gateways.FirstOrDefault(_ => _.SerialNumber == param.SerialNumber);
+            if (itemExist == null)
+            {
+                var item = new Gateways()
+                {
+                    FirmwareVersion = param.FirmwareVersion,
+                    SerialNumber = param.SerialNumber,
+                    State = param.State,
+                    IP = param.IP,
+                    Port = param.Port
+                };
+                dbContext.Gateways.Add(item);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+        public async Task<List<SearchGatewaysResultModel>> Search(string param)
+        {
+            var data = await dbContext.Gateways.Where(_ => string.IsNullOrEmpty(param) ? true : _.FirmwareVersion.Contains(param)
+             || _.SerialNumber.Contains(param) || _.State.Contains(param))
                 .Select(_ => new SearchGatewaysResultModel()
                 {
-                    Id = _.ID.ToString(),
+                    Id = _.ID,
                     FirmwareVersion = _.FirmwareVersion,
                     State = _.State,
                     SerialNumber = _.SerialNumber,
                     IP = _.IP,
                     Port = _.Port
-                }).ToList();
+                }).ToListAsync();
             return data;
         }
-        public Gateways GetById(string param)
+        public async Task<Gateways> GetById(string param)
         {
-            var item = dbContext.Gateways.FirstOrDefault(_ => _.ID.ToString() == param);
+            var item = await dbContext.Gateways.FirstOrDefaultAsync(_ => _.ID.ToString() == param);
             return item;
         }
-        public void Update(UpdateGatewaysParamModel param)
+        public async Task Update(UpdateGatewaysParamModel param)
         {
             var item = dbContext.Gateways.FirstOrDefault(_ => _.ID.ToString() == param.Id);
             if (item != null)
@@ -60,16 +63,16 @@ namespace EDMITest.Services
                 item.Port = param.Port;
             }
             dbContext.Gateways.Update(item);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void Remove(string param)
+        public async Task Remove(string param)
         {
             var item = dbContext.Gateways.FirstOrDefault(_ => _.ID.ToString() == param);
             if (item != null)
             {
                 dbContext.Gateways.Remove(item);
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
     }

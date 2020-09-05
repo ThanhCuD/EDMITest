@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using EDMITest.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using System;
 
 namespace EDMITest
 {
@@ -14,11 +11,30 @@ namespace EDMITest
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .WriteTo.File("./Log/log.txt", rollingInterval: RollingInterval.Day)
+            .MinimumLevel.Error()
+            .CreateLogger();
+            try
+            {
+                Log.Error("Starting up");
+                var host = BuildWebHost(args);
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application start-up failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseStartup<Startup>()
                 .Build();
     }
