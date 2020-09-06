@@ -27,15 +27,8 @@ namespace UnitTestEDMI
                     new ElectricMeter { ID = 3, FirmwareVersion = "v 3", SerialNumber = "1236", State = "State" }
                 };
             var dbContext = new Mock<EdmiContext>();
-            var dbSet = new Mock<DbSet<ElectricMeter>>();
-
-            var queryable = myEntities.AsQueryable();
-            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            dbSet.As<IQueryable<ElectricMeter>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbContext.Setup(o => o.ElectricMeters).Returns(dbSet.Object);
-
+            var dbSet = GetQueryableMockDbSet(myEntities);
+            dbContext.Setup(o => o.ElectricMeters).Returns(dbSet);
             var service = new ElectricMeterService(dbContext.Object);
             controller = new ElectricMeterController(service);
         }
@@ -80,5 +73,38 @@ namespace UnitTestEDMI
                 Assert.Fail(ex.Message);
             }
         }
+        [TestMethod]
+        public async Task CreateSuccess()
+        {
+            try
+            {
+                Assert.AreEqual(myEntities.Count, 3);
+                var data = new CreateElectricMeterParamModel { FirmwareVersion = "v 4", SerialNumber = "1237", State = "State" };
+                var actionResult = await controller.Create(data);
+                var okObjectResult = actionResult as OkResult;
+                var expect = myEntities.Count;
+                Assert.AreEqual(200, okObjectResult.StatusCode);
+                Assert.AreEqual(expect, 4);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+        #region private
+        private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
+        {
+            var queryable = sourceList.AsQueryable();
+
+            var dbSet = new Mock<DbSet<T>>();
+            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
+
+            return dbSet.Object;
+        }
+        #endregion
     }
 }
